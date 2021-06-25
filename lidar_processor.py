@@ -1,3 +1,4 @@
+from typing import Type
 from CoordinateRecalculator import robot_pos_recalc
 
 import math
@@ -33,9 +34,12 @@ def get_angles(ball_pos: dict, robot_pos: dict):
     return robot_ball_angle
 
 
-def angledst_to_point(angle, distance):
-    y = distance*math.sin(math.radians(angle))
-    x = distance*math.cos(math.radians(angle))
+def angledst_to_point(angle, distance, rob_Pos):
+    y = rob_Pos['y'] - distance*math.sin(math.radians(angle))
+    x = rob_Pos['x'] + distance*math.cos(math.radians(angle))
+
+    print(distance)
+
     return {'x':x, 'y':y}
 
 
@@ -59,19 +63,8 @@ def get_gap_coordinate(coordinates: list):
     return gap_avg_y
 
 
-points = [
-    {'x':0.9,'y':0.7},
-    {'x':0.9,'y':0.65},
-    {'x':0.9,'y':0.6},
-    {'x':1.1,'y':0.55},
-    {'x':0.9,'y':0.5},
-    {'x':0.9,'y':0.45},
-    {'x':1.1,'y':0.4},
-    {'x':1.1,'y':0.35},
-    {'x':1.1,'y':0.3},
-]
 
-print(get_gap_coordinate(points))
+#print(get_gap_coordinate(points))
 def Get_Goal_Angles(rob_pos, Team):
     #AFTER GOAL SWICHT SCORE ON BLUE TO FALSE OR TRUE (after every goal u switch it)
     scoreOnBlue = True
@@ -90,7 +83,7 @@ def Get_Goal_Angles(rob_pos, Team):
         angleToBottom +=360
     if(angleToTop < 0 ):
         angleToTop +=360
-    print("Angle to top: ", angleToTop, " Angle to butt: ", angleToBottom)
+    #print("Angle to top: ", angleToTop, " Angle to butt: ", angleToBottom)
     #angle from point tot the top of goal
 
     #print("angle to goal: " ,math.degrees(smallQ))
@@ -99,3 +92,13 @@ def Get_Goal_Angles(rob_pos, Team):
         return {'max':angleToTop , 'min': angleToBottom}
     elif(angleToBottom > angleToTop):
         return {'max': angleToBottom, 'min': angleToTop}
+
+
+def Get_Lidar_Range(rob_pos, Team, Lid):
+    MaxNMinGoals= Get_Goal_Angles(rob_pos, Team)
+    LidGoalRange = []
+    for i in range (int(MaxNMinGoals['min']), int(MaxNMinGoals['max'])):
+        print(i, angledst_to_point(i, Lid[i], rob_pos)['x'], angledst_to_point(i, Lid[i], rob_pos)['y'])
+        #print(Lid[i])
+        print(" ")
+        
