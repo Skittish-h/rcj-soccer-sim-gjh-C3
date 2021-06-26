@@ -45,7 +45,7 @@ class interceptCalculator():
     
     #calculates time nessecary to traverse a certain distance - used to calculate imtercept
     def calculate_time(self, distance):
-        speed_constant = {'m':110, 'c':0}
+        speed_constant = {'m':170, 'c':0}
         
         return speed_constant['m']*distance + speed_constant['c']
         

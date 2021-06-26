@@ -43,17 +43,16 @@ def fit_parabola(intercept_pos: dict, robot_pos: dict, goal_pos: dict):
 #using derivatives
 def get_tangent_point(robot_pos: dict, parabola_constants: dict, team):
     #calculate derivative f'(x) = 2ax + b
-    print("parabola const", parabola_constants)
+    #print("parabola const", parabola_constants)
 
     derivative = 2 * parabola_constants['a'] * robot_pos['x'] + parabola_constants['b']
 
-    print(derivative)
     #define future point
     futurepoint = dict()
 
     #point is 10 units away from us
-    futurepoint['x'] = robot_pos['x'] + (-0.01 if team else 0.01)
-    futurepoint['y'] = robot_pos['y'] + derivative * (-0.01 if team else 0.01)
+    futurepoint['x'] = robot_pos['x'] + (-1 if team else 1)
+    futurepoint['y'] = robot_pos['y'] + derivative * (-1 if team else 1)
     
 
     return futurepoint

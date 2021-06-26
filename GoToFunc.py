@@ -42,18 +42,18 @@ def get_angles(ball_pos: dict, robot_pos: dict):
             robot_ball_angle -= 360
 
         return robot_ball_angle, robot_angle
-def goTo(x, y, robot_pos, robot_angle, point_goal=False, should_soften = True, magicnum= 0.20, ball_pos={'x':0, 'y':0}, ignor = True):
+def goTo(x, y, robot_pos, robot_angle, team,point_goal=False, should_soften = True, magicnum= 0.40, ball_pos={'x':0, 'y':0}, ignor = True):
     
-    if ball_pos['x'] > 0.6 and ignor:
+    if ((ball_pos['x'] > 0.95) if not team else (ball_pos['x'] < 0.05)) and ignor:
         DesiredPos = dict()
-        x = 0.3
+        x = 0.3 if team else 0.7
         y = 0.5
         DesiredPos['x'] = x
         DesiredPos['y'] = y
         if(math.sqrt((DesiredPos['x'] - robot_pos['x'])**2 + (DesiredPos['y'] - robot_pos['y'])**2) < 0.02):
-            DesiredPos = {'x':0.5,"y":0}
+            DesiredPos = {'x': 0.5,"y":0}
             ball_angle, robot_angle = get_angles(DesiredPos, robot_pos)
-            return goTo(DesiredPos["x"], DesiredPos["y"], robot_pos, robot_angle, point_goal=True, ignor=False)
+            return goTo(DesiredPos["x"], DesiredPos["y"], robot_pos,team, robot_angle, point_goal=True, ignor=False)
     
     AngleNDistance = GetAngleToSpot(x,y,robot_pos, robot_angle) #0 angle to spot, 1 distance to spot
     

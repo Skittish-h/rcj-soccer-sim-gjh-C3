@@ -57,7 +57,6 @@ def get_gap_groups(coordinates: list):
 def get_gap_coordinate(coordinates: list):
     
     gaps_groups = get_gap_groups(coordinates)
-    print(gaps_groups)
     if gaps_groups != [[]]:
         max = []
         for gap_g in gaps_groups:
@@ -71,7 +70,6 @@ def get_gap_coordinate(coordinates: list):
 
 
 
-#print(get_gap_coordinate(points))
 def Get_Goal_Angles(rob_pos, Team):
     #AFTER GOAL SWICHT SCORE ON BLUE TO FALSE OR TRUE (after every goal u switch it)
     scoreOnBlue = True
@@ -90,15 +88,8 @@ def Get_Goal_Angles(rob_pos, Team):
         angleToBottom +=360
     if(angleToTop < 0 ):
         angleToTop +=360
-    #print("Angle to top: ", angleToTop, " Angle to butt: ", angleToBottom)
     #angle from point tot the top of goal
 
-    #print("angle to goal: " ,math.degrees(smallQ))
-    #`print("Robot Orientation: ", math.degrees(rob_pos['orientation']))
-    # if(angleToTop > angleToBottom):
-    #     print("THIS HAPPENS")
-    #     return {'max':angleToTop , 'min': angleToBottom}
-    # elif(angleToBottom > angleToTop):
     
     return {'max': angleToBottom, 'min': angleToTop}
 
