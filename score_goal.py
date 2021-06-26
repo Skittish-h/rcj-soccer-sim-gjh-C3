@@ -100,8 +100,7 @@ class MyScoringRobot(RCJSoccerRobot):
                 
                 self.intercept_c.pushPoint(ball_pos)
                 target = {'x':1 if not Team else 0, 'y': statistics.median(median_filter)}
-                print("target", target)
-
+                print(target)
 
                 myi = self.getIntercepts(robot_pos, Team)
 
