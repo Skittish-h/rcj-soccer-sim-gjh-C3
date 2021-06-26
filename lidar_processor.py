@@ -75,7 +75,7 @@ print(get_gap_coordinate(points))
 def Get_Goal_Angles(rob_pos, Team):
     #AFTER GOAL SWICHT SCORE ON BLUE TO FALSE OR TRUE (after every goal u switch it)
     scoreOnBlue = True
-    topOfGoalY = -0.1825361138777991;
+    topOfGoalY = -0.1825361138777991
     topOfGoalX = 0.75
     if(scoreOnBlue):
         abs(topOfGoalX)
