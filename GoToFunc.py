@@ -42,7 +42,7 @@ def get_angles(ball_pos: dict, robot_pos: dict):
             robot_ball_angle -= 360
 
         return robot_ball_angle, robot_angle
-def goTo(x, y, robot_pos, robot_angle, team,point_goal=False, should_soften = True, magicnum= 0.40, ball_pos={'x':0, 'y':0}, ignor = True):
+def goTo(x, y, robot_pos, robot_angle, team,point_goal=False, should_soften = True, magicnum= 0.70, ball_pos={'x':0, 'y':0}, ignor = True):
     
     if ((ball_pos['x'] > 0.95) if not team else (ball_pos['x'] < 0.05)) and ignor:
         DesiredPos = dict()

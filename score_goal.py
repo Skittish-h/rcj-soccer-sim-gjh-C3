@@ -75,7 +75,7 @@ class MyScoringRobot(RCJSoccerRobot):
             gap_y = Get_Lidar_Range(robot_pos, Team,lidar_ranges)
 
             if gap_y != -1:
-                cur_gap = {'x': 1 if not Team else 0, 'y': gap_y}
+                cur_gap = {'x': 0.95 if not Team else 0.05, 'y': gap_y}
                 median_filter[iterator] = gap_y
                 iterator+=1
                 if iterator>7:
@@ -100,7 +100,7 @@ class MyScoringRobot(RCJSoccerRobot):
                 
                 self.intercept_c.pushPoint(ball_pos)
                 target = {'x':1 if not Team else 0, 'y': statistics.median(median_filter)}
-
+                print("target", target)
 
 
                 myi = self.getIntercepts(robot_pos, Team)

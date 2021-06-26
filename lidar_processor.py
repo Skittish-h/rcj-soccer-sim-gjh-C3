@@ -72,7 +72,7 @@ def get_gap_coordinate(coordinates: list):
 
 def Get_Goal_Angles(rob_pos, Team):
     #AFTER GOAL SWICHT SCORE ON BLUE TO FALSE OR TRUE (after every goal u switch it)
-    scoreOnBlue = True
+    scoreOnBlue = not Team
     topOfGoalY = -0.1825361138777991
     topOfGoalX = 0.75
     if(scoreOnBlue):
@@ -82,7 +82,7 @@ def Get_Goal_Angles(rob_pos, Team):
 
     angleToTop = get_angles({'x':topOfGoalX, 'y': topOfGoalY}, rob_pos)
     angleToBottom = get_angles({'x':topOfGoalX, 'y': -topOfGoalY}, rob_pos)
-
+    print('topX', topOfGoalX, 'topY', topOfGoalY)
     
     if(angleToBottom < 0):
         angleToBottom +=360
@@ -96,6 +96,7 @@ def Get_Goal_Angles(rob_pos, Team):
 
 def Get_Lidar_Range(rob_pos, Team, Lid):
     MaxNMinGoals= Get_Goal_Angles(rob_pos, Team)
+    print(MaxNMinGoals)
     LidGoalRange = []
     center_aligned = MaxNMinGoals['min'] >= MaxNMinGoals['max']
     if center_aligned:
