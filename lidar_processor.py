@@ -1,6 +1,8 @@
 from typing import Type
 from CoordinateRecalculator import robot_pos_recalc
 
+from CoordinateRecalculator import coor_recalc
+
 import math
 
 BLUE_GOAL_BOUNDARY = 1
@@ -35,10 +37,8 @@ def get_angles(ball_pos: dict, robot_pos: dict):
 
 
 def angledst_to_point(angle, distance, rob_Pos):
-    y = rob_Pos['y'] - distance*math.sin(math.radians(angle))
+    y = rob_Pos['y'] + distance*math.sin(math.radians(angle))
     x = rob_Pos['x'] + distance*math.cos(math.radians(angle))
-
-    print(distance)
 
     return {'x':x, 'y':y}
 
@@ -55,12 +55,19 @@ def get_gap_groups(coordinates: list):
 
 
 def get_gap_coordinate(coordinates: list):
+    
     gaps_groups = get_gap_groups(coordinates)
-    biggest_gap = max(gaps_groups)
+    print(gaps_groups)
+    if gaps_groups != [[]]:
+        max = []
+        for gap_g in gaps_groups:
+            if len(gap_g) > len(max):
+                max = gap_g
+        biggest_gap = max
+        gap_avg_y = sum(biggest_gap)/len(biggest_gap)
 
-    gap_avg_y = sum(biggest_gap)/len(biggest_gap)
-
-    return gap_avg_y
+        return gap_avg_y
+    return -1
 
 
 
@@ -88,17 +95,25 @@ def Get_Goal_Angles(rob_pos, Team):
 
     #print("angle to goal: " ,math.degrees(smallQ))
     #`print("Robot Orientation: ", math.degrees(rob_pos['orientation']))
-    if(angleToTop > angleToBottom):
-        return {'max':angleToTop , 'min': angleToBottom}
-    elif(angleToBottom > angleToTop):
-        return {'max': angleToBottom, 'min': angleToTop}
+    # if(angleToTop > angleToBottom):
+    #     print("THIS HAPPENS")
+    #     return {'max':angleToTop , 'min': angleToBottom}
+    # elif(angleToBottom > angleToTop):
+    
+    return {'max': angleToBottom, 'min': angleToTop}
 
 
 def Get_Lidar_Range(rob_pos, Team, Lid):
     MaxNMinGoals= Get_Goal_Angles(rob_pos, Team)
     LidGoalRange = []
+    center_aligned = MaxNMinGoals['min'] >= MaxNMinGoals['max']
+    if center_aligned:
+        for i in list(range(int(MaxNMinGoals['min']), 360)) + list(range(int(MaxNMinGoals['max']))):
+            real_angle = i - (math.degrees(rob_pos['orientation'])-90)
+            LidGoalRange.append(coor_recalc(angledst_to_point(real_angle, Lid[i], rob_pos)['x'], angledst_to_point(real_angle, Lid[i], rob_pos)['y']))
+        return get_gap_coordinate(LidGoalRange)
     for i in range (int(MaxNMinGoals['min']), int(MaxNMinGoals['max'])):
-        print(i, angledst_to_point(i, Lid[i], rob_pos)['x'], angledst_to_point(i, Lid[i], rob_pos)['y'])
-        #print(Lid[i])
-        print(" ")
+        real_angle = i - (math.degrees(rob_pos['orientation'])-90)
+        LidGoalRange.append(coor_recalc(angledst_to_point(real_angle, Lid[i], rob_pos)['x'], angledst_to_point(real_angle, Lid[i], rob_pos)['y']))
+    return get_gap_coordinate(LidGoalRange)
         
